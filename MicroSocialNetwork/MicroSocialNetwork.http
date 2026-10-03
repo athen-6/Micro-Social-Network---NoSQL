@@ -1,0 +1,6 @@
+@MicroSocialNetwork_HostAddress = http://localhost:5160
+
+GET {{MicroSocialNetwork_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

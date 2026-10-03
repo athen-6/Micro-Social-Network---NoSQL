@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>MiniSocial - Bạn bè</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+<div class="app-shell">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <span class="brand-icon">
+                M
+            </span>
+
+            <span>
+                MiniSocial
+            </span>
+
+        </div>
+
+
+        <nav>
+
+            <a class="nav-item"
+               href="index.html">
+
+                <span><i class="fa-solid fa-house"></i></span>
+                Bảng tin
+
+            </a>
+
+
+            <a class="nav-item"
+               href="profile.html">
+
+                <span><i class="fa-solid fa-user"></i></span>
+                Trang cá nhân
+
+            </a>
+
+
+            <a class="nav-item active"
+               href="friends.html">
+
+                <span><i class="fa-solid fa-user-group"></i></span>
+                Bạn bè
+
+            </a>
+
+
+            <a class="nav-item"
+               href="recommendation.html">
+
+                <span><i class="fa-solid fa-lightbulb"></i></span>
+                Gợi ý
+
+            </a>
+
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+            © 2026 MiniSocial
+        </div>
+
+    </aside>
+
+
+
+    <!-- MAIN -->
+
+    <main class="main-area">
+
+
+        <header class="topbar">
+
+            <h1>
+                Bạn bè
+            </h1>
+
+
+            <div class="top-actions">
+
+                <div class="user-mini">
+                    <span class="avatar avatar-sm">D</span>
+                    <b>Duyên</b>
+                </div>
+
+            </div>
+
+
+
+        </header>
+
+
+
+        <!-- FRIEND PAGE -->
+
+        <div class="page-card card">
+
+
+            <!-- TABS -->
+
+            <div class="friend-tabs">
+
+                <button class="tab active" type="button" data-friend-type="all">
+                    Tất cả bạn bè
+                </button>
+
+                <button class="tab" type="button" data-friend-type="following">
+                    Đang theo dõi
+                </button>
+
+                <button class="tab" type="button" data-friend-type="followers">
+                    Người theo dõi
+                </button>
+
+            </div>
+
+
+
+            <!-- SEARCH -->
+
+            <div class="friend-toolbar">
+
+                <div class="search-box">
+
+                    ⌕
+
+                    <input
+                        id="friendSearch"
+                        placeholder="Tìm kiếm bạn bè"
+                    >
+
+                </div>
+
+
+                <button class="primary-btn">
+
+                    ＋ Tìm bạn bè
+
+                </button>
+
+            </div>
+
+            <div id="friendRequests" class="friend-requests"></div>
+
+            <!-- LIST -->
+
+            <div id="friendList">
+            </div>
+
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script src="js/api.js"></script>
+<script src="js/friends.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const api = window.socialApi;
+        const isLoggedIn = api && api.getCurrentUser() && api.getCurrentUser().username;
+        
+        const profileLink = document.querySelector('a[href="profile.html"]');
+        const friendsLink = document.querySelector('a[href="friends.html"]');
+        
+        if (!isLoggedIn) {
+            if (profileLink) profileLink.classList.add('disabled');
+            if (friendsLink) friendsLink.classList.add('disabled');
+            
+            if (profileLink) {
+                profileLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    api.renderLoginModal();
+                });
+            }
+            
+            if (friendsLink) {
+                friendsLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    api.renderLoginModal();
+                });
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

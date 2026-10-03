@@ -1,0 +1,8 @@
+document.addEventListener("DOMContentLoaded", async () => {
+	const api = window.socialApi; const user = api.getCurrentUser(); const list = document.getElementById("searchResults"); const search = document.getElementById("searchInput"); if (!user || !list) return;
+	let recommendations = [];
+	const render = items => { list.innerHTML = items.length ? items.map(item => `<div class="recommend-user"><a href="profile.html?userId=${encodeURIComponent(item.id)}" aria-label="Xem trang cá nhân của ${api.escapeHtml(item.fullName)}">${api.avatarMarkup(item)}</a><div class="user-text"><b>${api.escapeHtml(item.fullName)}</b><small>${api.escapeHtml(item.username)} · ${api.escapeHtml(item.reason)}</small></div><button class="primary-btn" type="button" data-friend-id="${api.escapeHtml(item.id)}">Kết bạn</button></div>`).join("") : "<p>Không có gợi ý phù hợp.</p>"; };
+	try { recommendations = (await api.request(`/recommendations?userId=${user.id}`)).data.recommendations; render(recommendations); } catch (error) { list.textContent = error.message; }
+	search?.addEventListener("input", () => { const q = search.value.toLowerCase(); render(recommendations.filter(item => `${item.fullName} ${item.username}`.toLowerCase().includes(q))); });
+	list.addEventListener("click", async event => { const button = event.target.closest("[data-friend-id]"); if (!button) return; try { await api.request(`/friend-requests/${button.dataset.friendId}`, { method: "POST", body: JSON.stringify({ userId: user.id }) }); button.textContent = "Đã gửi lời mời"; button.disabled = true; api.toast("Đã gửi lời mời kết bạn"); } catch (error) { api.toast(error.message); } });
+});

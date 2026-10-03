@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace MicroSocialNetwork.Controllers
 {
     [ApiController]
-    [Route("api/recommendations")] // Sửa đúng đường dẫn Frontend gọi
+    [Route("api/recommendations")]
     public class RecommendationsController : ControllerBase
     {
         private readonly IDriver _driver;

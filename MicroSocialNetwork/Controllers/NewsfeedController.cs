@@ -159,14 +159,12 @@ namespace MicroSocialNetwork.Controllers
             await using var session = _driver.AsyncSession(o => o.WithDatabase("microsocialnetworkdb"));
             bool isLikeAction = request.action == "LIKE";
 
-            // Nam Query 3.2 (Like) và 3.3 (Unlike)
             var cypher = isLikeAction
                 ? @"MATCH (u:User {userId: toInteger($userId)}), (p:Post {postId: toInteger($postId)}) MERGE (u)-[:LIKED]->(p)"
                 : @"MATCH (u:User {userId: toInteger($userId)})-[r:LIKED]->(p:Post {postId: toInteger($postId)}) DELETE r";
 
             await session.ExecuteWriteAsync(async tx => await tx.RunAsync(cypher, new { userId = request.userId, postId }));
 
-            // Nam Query 3.1: Đếm lại tổng số Like sau khi thao tác
             var countCypher = "MATCH (p:Post {postId: toInteger($postId)})<-[r:LIKED]-() RETURN count(r) AS likeCount";
             var newLikeCount = await session.ExecuteReadAsync(async tx => {
                 var res = await tx.RunAsync(countCypher, new { postId });

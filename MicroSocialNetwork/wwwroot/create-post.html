@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>MiniSocial - Đăng bài</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .create-post-page {
+            max-width: 700px;
+            margin: 25px auto;
+        }
+
+        .create-post-card {
+            padding: 20px;
+        }
+
+        .create-post-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #edf0f5;
+        }
+
+        .create-post-header h2 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .create-post-header small {
+            display: block;
+            color: #8b95a3;
+            font-size: 10px;
+            margin-top: 3px;
+        }
+
+        .post-textarea {
+            width: 100%;
+            min-height: 180px;
+            resize: vertical;
+            border: 0;
+            outline: 0;
+            padding: 18px 5px;
+            font-family: inherit;
+            font-size: 14px;
+            color: #182230;
+        }
+
+        .post-textarea::placeholder {
+            color: #9aa4b1;
+        }
+
+        .post-options {
+            border: 1px solid #edf0f5;
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .post-options-title {
+            font-size: 11px;
+            font-weight: 600;
+            margin-right: auto;
+        }
+
+        .post-option {
+            border: 0;
+            background: #f6f8fb;
+            color: #596575;
+            border-radius: 6px;
+            padding: 8px 11px;
+            cursor: pointer;
+            font-size: 10px;
+        }
+
+        .post-option:hover {
+            background: #eef4ff;
+            color: #1768d8;
+        }
+
+        .image-preview {
+            display: none;
+            margin-top: 12px;
+            position: relative;
+        }
+
+        .image-preview img {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #edf0f5;
+        }
+
+        .remove-image {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 30px;
+            height: 30px;
+            border: 0;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, .65);
+            color: white;
+            cursor: pointer;
+        }
+
+        .post-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .post-status {
+            color: #9099a7;
+            font-size: 10px;
+        }
+
+        .post-footer-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .cancel-btn {
+            background: white;
+            color: #596575;
+            border: 1px solid #dfe5ed;
+            border-radius: 6px;
+            padding: 9px 16px;
+            cursor: pointer;
+            font-size: 10px;
+        }
+
+        .submit-post-btn {
+            background: #347bea;
+            color: white;
+            border: 0;
+            border-radius: 6px;
+            padding: 9px 18px;
+            cursor: pointer;
+            font-size: 10px;
+        }
+
+        .submit-post-btn:hover {
+            background: #246bd8;
+        }
+
+        .emoji-list {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8fafc;
+            border-radius: 8px;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .emoji-list button {
+            border: 0;
+            background: white;
+            border-radius: 5px;
+            padding: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        @media (max-width: 650px) {
+
+            .create-post-page {
+                margin: 10px 0;
+            }
+
+            .create-post-card {
+                padding: 14px;
+            }
+
+            .post-options-title {
+                width: 100%;
+                margin-bottom: 3px;
+            }
+
+            .post-footer {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .post-footer-actions {
+                width: 100%;
+            }
+
+            .cancel-btn,
+            .submit-post-btn {
+                flex: 1;
+            }
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="app-shell">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <span class="brand-icon">M</span>
+            <span>MiniSocial</span>
+        </div>
+
+        <nav>
+
+            <a class="nav-item active" href="index.html">
+                <span>
+                    <i class="fa-solid fa-house"></i>
+                </span>
+                Bảng tin
+            </a>
+
+            <a class="nav-item" href="profile.html">
+                <span>
+                    <i class="fa-solid fa-user"></i>
+                </span>
+                Trang cá nhân
+            </a>
+
+            <a class="nav-item" href="friends.html">
+                <span>
+                    <i class="fa-solid fa-user-group"></i>
+                </span>
+                Bạn bè
+            </a>
+
+            <a class="nav-item" href="recommendation.html">
+                <span>
+                    <i class="fa-solid fa-lightbulb"></i>
+                </span>
+                Gợi ý
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            © 2026 MiniSocial
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main-area">
+
+        <header class="topbar">
+
+            <h1>Đăng bài</h1>
+
+            <div class="top-actions">
+
+                <div class="search-mini">
+
+                    ⌕
+
+                    <input
+                        type="text"
+                        placeholder="Tìm kiếm..."
+                    >
+
+                </div>
+
+                <div class="user-mini">
+
+                    <span class="avatar avatar-sm">
+                        D
+                    </span>
+
+                    <b>Duyên</b>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CREATE POST -->
+
+        <div class="create-post-page">
+
+            <div class="card create-post-card">
+
+                <div class="create-post-header">
+
+                    <span class="avatar">
+                        D
+                    </span>
+
+                    <div>
+                        <h2>Tạ Thị Hương Duyên</h2>
+
+                        <small>
+                            <i class="fa-solid fa-earth-americas"></i>
+                            Công khai
+                        </small>
+                    </div>
+
+                </div>
+
+
+                <textarea
+                    id="postContent"
+                    class="post-textarea"
+                    placeholder="Bạn đang nghĩ gì?"
+                ></textarea>
+
+
+                <!-- IMAGE PREVIEW -->
+
+                <div
+                    id="imagePreview"
+                    class="image-preview"
+                >
+
+                    <img id="previewImage" src="" alt="Ảnh xem trước">
+
+                    <button
+                        type="button"
+                        id="removeImage"
+                        class="remove-image"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+
+                <!-- OPTIONS -->
+
+                <div class="post-options">
+
+                    <span class="post-options-title">
+                        Thêm vào bài viết
+                    </span>
+
+                    <button
+                        type="button"
+                        class="post-option"
+                        id="imageButton"
+                    >
+                        <i class="fa-solid fa-image"></i>
+                        Ảnh
+                    </button>
+
+                    <button
+                        type="button"
+                        class="post-option"
+                        id="emojiButton"
+                    >
+                        <i class="fa-regular fa-face-smile"></i>
+                        Cảm xúc
+                    </button>
+
+                    <button
+                        type="button"
+                        class="post-option"
+                        id="locationButton"
+                    >
+                        <i class="fa-solid fa-location-dot"></i>
+                        Vị trí
+                    </button>
+
+                </div>
+
+
+                <!-- HIDDEN FILE INPUT -->
+
+                <input
+                    type="file"
+                    id="imageInput"
+                    accept="image/*"
+                    hidden
+                >
+
+
+                <!-- EMOJIS -->
+
+                <div
+                    id="emojiList"
+                    class="emoji-list"
+                >
+
+                    <button type="button">😀</button>
+                    <button type="button">😂</button>
+                    <button type="button">😍</button>
+                    <button type="button">🥰</button>
+                    <button type="button">😎</button>
+                    <button type="button">😊</button>
+                    <button type="button">❤️</button>
+                    <button type="button">👍</button>
+                    <button type="button">🔥</button>
+                    <button type="button">🌱</button>
+                    <button type="button">🎉</button>
+                    <button type="button">☕</button>
+
+                </div>
+
+
+                <!-- FOOTER -->
+
+                <div class="post-footer">
+
+                    <span
+                        id="postStatus"
+                        class="post-status"
+                    >
+                        Bài viết sẽ được chia sẻ công khai
+                    </span>
+
+                    <div class="post-footer-actions">
+
+                        <button
+                            type="button"
+                            class="cancel-btn"
+                            id="cancelBtn"
+                        >
+                            Hủy
+                        </button>
+
+                        <button
+                            type="button"
+                            class="submit-post-btn"
+                            id="submitPost"
+                        >
+                            <i class="fa-solid fa-paper-plane"></i>
+                            Đăng bài
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script src="js/api.js"></script>
+<script src="js/create-post.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const api = window.socialApi;
+        const isLoggedIn = api && api.getCurrentUser() && api.getCurrentUser().username;
+        
+        const profileLink = document.querySelector('a[href="profile.html"]');
+        const friendsLink = document.querySelector('a[href="friends.html"]');
+        
+        if (!isLoggedIn) {
+            if (profileLink) profileLink.classList.add('disabled');
+            if (friendsLink) friendsLink.classList.add('disabled');
+            
+            if (profileLink) {
+                profileLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    api.renderLoginModal();
+                });
+            }
+            
+            if (friendsLink) {
+                friendsLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    api.renderLoginModal();
+                });
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
